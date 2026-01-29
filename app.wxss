@@ -1,0 +1,101 @@
+/** app.wxss **/
+page {
+  /* Default Light Theme Variables */
+  --primary-color: #0052d9;
+  --bg-color: #f0f2f5;
+  --card-bg: #ffffff;
+  --text-main: #333333;
+  --text-sub: #666666;
+  --border-color: #e7e7e7;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --danger-color: #d93025;
+  --success-color: #2ba471;
+  --warning-color: #e37318;
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  
+  box-sizing: border-box;
+}
+
+.container {
+  min-height: 100vh;
+  padding: 16px;
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
+  color: var(--text-main);
+}
+
+/* Eye Protection Theme Override on Container */
+.container[data-theme='eye-protect'] {
+  --primary-color: #8c6b48;
+  --bg-color: #f7f3e8; /* Warm beige */
+  --card-bg: #fffbf0; /* Lighter warm beige */
+  --text-main: #5c4b37;
+  --text-sub: #8a7660;
+  --border-color: #e6dac6;
+  --shadow: 0 4px 12px rgba(92, 75, 55, 0.08);
+  
+  /* Force apply background color again because variable changed */
+  background-color: var(--bg-color);
+}
+
+/* Common Utilities */
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.btn:active {
+  opacity: 0.8;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.btn-danger {
+  background: var(--danger-color);
+  color: #fff;
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.spacer-16 {
+  height: 16px;
+  width: 16px;
+}
+
+.text-center {
+  text-align: center;
+}

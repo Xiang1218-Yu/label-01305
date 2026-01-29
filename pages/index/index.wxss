@@ -1,0 +1,217 @@
+.header-section {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--bg-color);
+  padding-bottom: 8px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.search-input {
+  flex: 1;
+  margin-left: 8px;
+  font-size: 14px;
+}
+
+.filter-section {
+  margin-bottom: 12px;
+}
+
+.filter-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 8px;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  font-size: 12px;
+  color: var(--text-sub);
+  transition: all 0.2s;
+}
+
+.filter-btn:active {
+  opacity: 0.7;
+  transform: scale(0.95);
+}
+
+.tab {
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  color: var(--text-sub);
+  background: transparent;
+  transition: all 0.3s;
+}
+
+.tab.active {
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-list {
+  height: calc(100vh - 120px);
+}
+
+.task-card {
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid var(--primary-color);
+  transition: all 0.2s;
+}
+
+.task-done {
+  opacity: 0.6;
+  border-left-color: var(--success-color);
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.tag-priority {
+  background: #fff3e0;
+  color: #e37318;
+}
+
+.tag-high {
+  background: #ffebeb;
+  color: #d93025;
+}
+
+.tag-medium {
+  background: #fff3e0;
+  color: #e37318;
+}
+
+.tag-low {
+  background: #e6f4ea;
+  color: #137333;
+}
+
+.tag-type {
+  background: #e8f0fe;
+  color: #1967d2;
+}
+
+.task-body {
+  display: flex;
+  align-items: flex-start;
+}
+
+.checkbox {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.checkbox.checked {
+  background: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.task-content {
+  flex: 1;
+}
+
+.task-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.task-done .task-title {
+  text-decoration: line-through;
+  color: var(--text-sub);
+}
+
+.task-date {
+  font-size: 12px;
+  color: var(--text-sub);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.overdue-tag {
+  color: var(--danger-color);
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.due-soon-tag {
+  color: var(--warning-color);
+  font-weight: bold;
+  font-size: 10px;
+}
+
+
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(0, 82, 217, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.fab-icon {
+  color: #fff;
+  font-size: 32px;
+  margin-top: -4px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--text-sub);
+}
+
+.spacer-bottom {
+  height: 80px; /* Space for FAB */
+}

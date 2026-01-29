@@ -1,0 +1,7 @@
+{
+  "desc": "About local sitemap configuration",
+  "rules": [{
+    "action": "allow",
+    "page": "*"
+  }]
+}

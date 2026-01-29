@@ -1,0 +1,49 @@
+.form-card {
+  padding: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.half {
+  width: 48%;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.input, .textarea, .picker-display {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 16px;
+  background: var(--bg-color);
+  box-sizing: border-box;
+  min-height: 44px;
+}
+
+.picker-display {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--text-main);
+}
+
+.textarea {
+  min-height: 100px;
+}
+
+.actions {
+  margin-top: 32px;
+}

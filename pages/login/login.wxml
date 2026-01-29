@@ -1,0 +1,25 @@
+<view class="container flex-col" style="justify-content: center;" data-theme="{{theme}}">
+  <view class="auth-card card">
+    <view class="title">{{ isLogin ? '欢迎回来' : '创建账号' }}</view>
+    
+    <view class="input-group">
+      <view class="label">用户名</view>
+      <input class="input" placeholder="请输入用户名" model:value="{{username}}" />
+    </view>
+    
+    <view class="input-group">
+      <view class="label">密码</view>
+      <input class="input" password placeholder="请输入密码" model:value="{{password}}" />
+    </view>
+
+    <view class="actions">
+      <button class="btn btn-primary" bindtap="handleSubmit" loading="{{loading}}">
+        {{ isLogin ? '登录' : '注册' }}
+      </button>
+    </view>
+
+    <view class="switch-mode" bindtap="toggleMode">
+      {{ isLogin ? '还没有账号？去注册' : '已有账号？去登录' }}
+    </view>
+  </view>
+</view>
