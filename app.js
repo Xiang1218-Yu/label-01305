@@ -21,11 +21,13 @@ App({
   },
   
   initDefaultUser() {
+    const crypto = require('./utils/crypto');
     const users = wx.getStorageSync('users') || [];
     const adminExists = users.find(u => u.username === 'admin');
     if (!adminExists) {
-      // 创建默认admin账号
-      const adminUser = { username: 'admin', password: '123456', id: 1000000 };
+      // 创建默认admin账号（使用加密密码）
+      const passwordHash = crypto.hashPassword('123456');
+      const adminUser = { username: 'admin', password: passwordHash, id: 1000000 };
       users.push(adminUser);
       wx.setStorageSync('users', users);
     }

@@ -1,5 +1,6 @@
 const storage = require('../../utils/storage');
 const util = require('../../utils/util');
+const reminder = require('../../utils/reminder');
 const app = getApp();
 
 Page({
@@ -24,6 +25,16 @@ Page({
     this.updateGreeting();
     this.updateDate();
     this.loadTasks();
+    // 检查任务提醒
+    this.checkReminders();
+  },
+
+  // 检查任务提醒
+  checkReminders() {
+    if (!this.data.userInfo) return;
+    const tasks = storage.getTasks(this.data.userInfo.id, {});
+    // 检查24小时内到期的任务（在首页不需要跳转）
+    reminder.checkAndShowReminder(tasks, 24);
   },
 
   // 更新问候语

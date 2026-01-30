@@ -1,5 +1,7 @@
 // Mock Database Service using LocalStorage
 
+const crypto = require('./crypto');
+
 const USERS_KEY = 'users';
 const TASKS_KEY = 'tasks';
 
@@ -10,19 +12,46 @@ const register = (username, password) => {
   if (users.find(u => u.username === username)) {
     return { success: false, message: '用户名已存在' };
   }
-  const newUser = { username, password, id: Date.now() };
+  // 使用哈希存储密码（不可逆）
+  const passwordHash = crypto.hashPassword(password);
+  const newUser = { 
+    username, 
+    password: passwordHash, // 存储哈希值而不是明文
+    id: Date.now() 
+  };
   users.push(newUser);
   wx.setStorageSync(USERS_KEY, users);
-  return { success: true, user: newUser };
+  // 返回用户信息时不包含密码
+  const { password: _, ...userWithoutPassword } = newUser;
+  return { success: true, user: userWithoutPassword };
 };
 
 const login = (username, password) => {
   const users = wx.getStorageSync(USERS_KEY) || [];
-  const user = users.find(u => u.username === username && u.password === password);
-  if (user) {
-    wx.setStorageSync('currentUser', user);
-    return { success: true, user };
+  const user = users.find(u => u.username === username);
+  
+  if (!user) {
+    return { success: false, message: '用户名或密码错误' };
   }
+  
+  // 兼容旧数据（未加密的密码）
+  let passwordMatch = false;
+  if (crypto.verifyPassword(password, user.password)) {
+    // 新密码（哈希）
+    passwordMatch = true;
+  } else if (user.password === password) {
+    // 旧密码（明文），迁移为哈希
+    passwordMatch = true;
+    user.password = crypto.hashPassword(password);
+    wx.setStorageSync(USERS_KEY, users);
+  }
+  
+  if (passwordMatch) {
+    const { password: _, ...userWithoutPassword } = user;
+    wx.setStorageSync('currentUser', userWithoutPassword);
+    return { success: true, user: userWithoutPassword };
+  }
+  
   return { success: false, message: '用户名或密码错误' };
 };
 

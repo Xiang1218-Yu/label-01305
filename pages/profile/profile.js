@@ -2,6 +2,7 @@ const app = getApp();
 const storage = require('../../utils/storage');
 const util = require('../../utils/util');
 const exportUtil = require('../../utils/export');
+const reminder = require('../../utils/reminder');
 
 Page({
   data: {
@@ -24,9 +25,23 @@ Page({
     if (user) {
       this.setData({ username: user.username });
       this.loadStats(user.id);
+      // 检查任务提醒
+      this.checkReminders(user.id);
     } else {
         wx.reLaunch({ url: '/pages/login/login' });
     }
+  },
+
+  // 检查任务提醒
+  checkReminders(userId) {
+    const tasks = storage.getTasks(userId);
+    // 检查24小时内到期的任务
+    reminder.checkAndShowReminder(tasks, 24, () => {
+      // 跳转到任务列表页（使用 switchTab，因为都是 tabBar 页面）
+      wx.switchTab({
+        url: '/pages/index/index'
+      });
+    });
   },
 
   loadStats(userId) {
@@ -116,6 +131,7 @@ Page({
       }
     });
   },
+
 
   clearCompleted() {
     const user = storage.getCurrentUser();

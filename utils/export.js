@@ -30,7 +30,7 @@ const exportToText = (tasks) => {
   text += `导出时间：${dateStr} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}\n`;
   text += `总任务数：${tasks.length}\n`;
   text += `已完成：${tasks.filter(t => t.status === 'completed').length}\n`;
-  text += `待办：${tasks.filter(t => t.status === 'pending').length}\n`;
+  text += `待办：${tasks.filter(t => t.status === 'pending' || !t.status).length}\n`;
   text += `\n${'='.repeat(40)}\n\n`;
   
   if (tasks.length === 0) {
