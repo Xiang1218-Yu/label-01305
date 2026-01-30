@@ -7,7 +7,8 @@ Page({
     username: '',
     password: '',
     loading: false,
-    theme: 'light'
+    theme: 'light',
+    showPassword: false
   },
 
   onShow() {
@@ -18,7 +19,14 @@ Page({
     this.setData({
       isLogin: !this.data.isLogin,
       username: '',
-      password: ''
+      password: '',
+      showPassword: false
+    });
+  },
+
+  togglePassword() {
+    this.setData({
+      showPassword: !this.data.showPassword
     });
   },
 

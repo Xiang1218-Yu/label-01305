@@ -46,9 +46,8 @@
     </view>
 
     <view class="actions">
-      <button class="btn btn-primary" bindtap="saveTask">保存任务</button>
-      <view class="spacer-16"></view>
       <button class="btn btn-danger" wx:if="{{isEdit}}" bindtap="deleteTask">删除</button>
+      <button class="btn btn-primary" bindtap="saveTask">保存任务</button>
     </view>
   </view>
 </view>

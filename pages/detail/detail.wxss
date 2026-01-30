@@ -58,4 +58,16 @@
 
 .actions {
   margin-top: 32px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.actions button {
+  flex: 1;
+  max-width: 200px;
+}
+
+.actions button:only-child {
+  max-width: 100%;
 }

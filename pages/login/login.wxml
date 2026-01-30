@@ -9,7 +9,21 @@
     
     <view class="input-group">
       <view class="label">密码</view>
-      <input class="input" password placeholder="请输入密码" model:value="{{password}}" />
+      <view class="password-input-wrapper">
+        <input 
+          class="input password-input" 
+          type="{{showPassword ? 'text' : 'password'}}" 
+          placeholder="请输入密码" 
+          model:value="{{password}}" 
+        />
+        <view class="password-toggle" bindtap="togglePassword">
+          <image 
+            class="password-icon" 
+            src="{{showPassword ? '/assets/closes-eyes.png' : '/assets/eyes.png'}}" 
+            mode="aspectFit"
+          />
+        </view>
+      </view>
     </view>
 
     <view class="actions">
