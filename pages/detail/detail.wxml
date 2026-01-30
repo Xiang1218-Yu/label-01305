@@ -33,15 +33,16 @@
     <view class="form-group">
       <view class="label">开始时间</view>
       <picker mode="multiSelector" range="{{startDateTimeRange}}" value="{{startDateTimeIndex}}" bindchange="bindStartDateTimeChange">
-        <view class="picker-display">{{startDateTime || '请选择开始时间'}}</view>
+        <view class="picker-display {{timeError ? 'error' : ''}}">{{startDateTime || '请选择开始时间'}}</view>
       </picker>
     </view>
     
     <view class="form-group">
       <view class="label">截止时间</view>
       <picker mode="multiSelector" range="{{endDateTimeRange}}" value="{{endDateTimeIndex}}" bindchange="bindEndDateTimeChange">
-        <view class="picker-display">{{endDateTime || '请选择截止时间'}}</view>
+        <view class="picker-display {{timeError ? 'error' : ''}}">{{endDateTime || '请选择截止时间'}}</view>
       </picker>
+      <view class="error-message" wx:if="{{timeError}}">{{timeError}}</view>
     </view>
 
     <view class="actions">

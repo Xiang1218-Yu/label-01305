@@ -60,6 +60,14 @@ const isDueSoon = (endDateTime) => {
   return diff > 0 && diff <= 24 * 60 * 60 * 1000;
 }
 
+// 比较两个日期时间，返回 endDateTime 是否大于 startDateTime
+const compareDateTime = (startDateTime, endDateTime) => {
+  if (!startDateTime || !endDateTime) return true; // 如果任一为空，不校验
+  const start = new Date(startDateTime.replace(/-/g, '/'));
+  const end = new Date(endDateTime.replace(/-/g, '/'));
+  return end > start;
+}
+
 module.exports = {
   formatTime,
   formatDate,
@@ -68,5 +76,6 @@ module.exports = {
   formatTimeOnly,
   isOverdue,
   isDueSoon,
-  formatNumber
+  formatNumber,
+  compareDateTime
 }

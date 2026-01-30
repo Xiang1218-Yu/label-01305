@@ -12,14 +12,56 @@ Page({
     sortIndex: 0, // 对应 sortOptions 的索引
     searchQuery: '',
     userInfo: null,
-    theme: 'light'
+    theme: 'light',
+    greeting: '',
+    currentDate: '',
+    stats: {
+      pending: 0,
+      completed: 0,
+      overdue: 0
+    }
   },
 
   onShow() {
     this.setData({ theme: app.globalData.theme });
     this.checkLogin();
     this.initSortIndex();
+    this.updateGreeting();
+    this.updateDate();
     this.loadTasks();
+  },
+
+  // 更新问候语
+  updateGreeting() {
+    const hour = new Date().getHours();
+    let greeting = '';
+    if (hour < 6) {
+      greeting = '夜深了';
+    } else if (hour < 9) {
+      greeting = '早上好';
+    } else if (hour < 12) {
+      greeting = '上午好';
+    } else if (hour < 14) {
+      greeting = '中午好';
+    } else if (hour < 18) {
+      greeting = '下午好';
+    } else if (hour < 22) {
+      greeting = '晚上好';
+    } else {
+      greeting = '夜深了';
+    }
+    this.setData({ greeting });
+  },
+
+  // 更新日期显示
+  updateDate() {
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const date = now.getDate();
+    const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+    const weekday = weekdays[now.getDay()];
+    const dateStr = `${month}月${date}日 星期${weekday}`;
+    this.setData({ currentDate: dateStr });
   },
 
   // 初始化排序索引
@@ -50,6 +92,20 @@ Page({
     if (this.data.filterStatus !== 'all') {
       filters.status = this.data.filterStatus;
     }
+
+    // 获取所有任务用于统计
+    const allTasks = storage.getTasks(this.data.userInfo.id, {});
+    
+    // 计算统计数据
+    const stats = {
+      pending: allTasks.filter(t => t.status !== 'completed').length,
+      completed: allTasks.filter(t => t.status === 'completed').length,
+      overdue: allTasks.filter(t => {
+        const endDateTime = t.endDateTime || t.endDate;
+        return t.status !== 'completed' && util.isOverdue(endDateTime);
+      }).length
+    };
+    this.setData({ stats });
 
     let tasks = storage.getTasks(this.data.userInfo.id, filters);
     

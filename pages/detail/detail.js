@@ -21,7 +21,8 @@ Page({
     endDateTimeRange: [[], [], [], [], [], []],
     startDateTimeIndex: [0, 0, 0, 0, 0, 0],
     endDateTimeIndex: [0, 0, 0, 0, 0, 0],
-    theme: 'light'
+    theme: 'light',
+    timeError: '' // 时间校验错误信息
   },
 
   onShow() {
@@ -42,7 +43,8 @@ Page({
       const endDateTime = util.formatDateTime(new Date(now.getTime() + 24 * 60 * 60 * 1000)); // 默认截止时间为明天
       this.setData({
         startDateTime,
-        endDateTime
+        endDateTime,
+        timeError: '' // 初始化时清除错误
       });
       this.updateDateTimeIndex('start', startDateTime);
       this.updateDateTimeIndex('end', endDateTime);
@@ -149,13 +151,20 @@ Page({
         endDateTime = endDateTime + ' 23:59:59';
       }
       
+      // 校验加载的任务时间是否有效
+      let timeError = '';
+      if (startDateTime && endDateTime && !util.compareDateTime(startDateTime, endDateTime)) {
+        timeError = '结束时间必须大于开始时间';
+      }
+      
       this.setData({
         title: task.title,
         desc: task.desc,
         priorityIndex: this.data.priorities.indexOf(priority) >= 0 ? this.data.priorities.indexOf(priority) : 1,
         typeIndex: this.data.types.indexOf(type) >= 0 ? this.data.types.indexOf(type) : 1,
         startDateTime: startDateTime,
-        endDateTime: endDateTime
+        endDateTime: endDateTime,
+        timeError: timeError
       });
       
       this.updateDateTimeIndex('start', startDateTime);
@@ -182,9 +191,17 @@ Page({
     const second = ranges[5][index[5]];
     
     const dateTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+    
+    // 校验结束时间是否大于开始时间
+    let timeError = '';
+    if (this.data.endDateTime && !util.compareDateTime(dateTime, this.data.endDateTime)) {
+      timeError = '开始时间不能大于结束时间';
+    }
+    
     this.setData({
       startDateTime: dateTime,
-      startDateTimeIndex: index
+      startDateTimeIndex: index,
+      timeError: timeError
     });
   },
 
@@ -199,9 +216,17 @@ Page({
     const second = ranges[5][index[5]];
     
     const dateTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+    
+    // 校验结束时间是否大于开始时间
+    let timeError = '';
+    if (this.data.startDateTime && !util.compareDateTime(this.data.startDateTime, dateTime)) {
+      timeError = '结束时间必须大于开始时间';
+    }
+    
     this.setData({
       endDateTime: dateTime,
-      endDateTimeIndex: index
+      endDateTimeIndex: index,
+      timeError: timeError
     });
   },
 
@@ -224,6 +249,13 @@ Page({
       return;
     }
 
+    // 校验结束时间必须大于开始时间
+    if (!util.compareDateTime(startDateTime, endDateTime)) {
+      wx.showToast({ title: '结束时间必须大于开始时间', icon: 'none', duration: 2000 });
+      this.setData({ timeError: '结束时间必须大于开始时间' });
+      return;
+    }
+
     const taskData = {
       title,
       desc,
@@ -235,6 +267,9 @@ Page({
       endDate: util.formatDateOnly(endDateTime), // 兼容旧字段
       userId: currentUser.id
     };
+
+    // 清除错误信息
+    this.setData({ timeError: '' });
 
     if (isEdit) {
       storage.updateTask(taskId, taskData);

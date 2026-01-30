@@ -1,36 +1,30 @@
 <view class="container" data-theme="{{theme}}">
+  <!-- Welcome Section -->
+  <view class="welcome-section">
+    <view class="welcome-header">
+      <view class="welcome-text">
+        <view class="greeting">{{greeting}}</view>
+      </view>
+      <view class="date-info">{{currentDate}}</view>
+    </view>
+
+
+  </view>
+
   <!-- Search & Filter Area -->
   <view class="header-section">
     <view class="search-bar">
-      <icon type="search" size="16" color="#999" />
-      <input 
-        class="search-input" 
-        placeholder="搜索任务..." 
-        confirm-type="search" 
-        bindconfirm="handleSearch"
-        bindinput="handleSearchInput"
-      />
+      <icon type="search" size="18" color="#999" />
+      <input class="search-input" placeholder="搜索任务..." confirm-type="search" bindconfirm="handleSearch" bindinput="handleSearchInput" />
     </view>
-    
+
     <view class="filter-section">
       <view class="filter-tabs">
-        <view 
-          class="tab {{filterStatus === 'all' ? 'active' : ''}}" 
-          data-status="all" 
-          bindtap="setFilter"
-        >全部</view>
-        <view 
-          class="tab {{filterStatus === 'pending' ? 'active' : ''}}" 
-          data-status="pending" 
-          bindtap="setFilter"
-        >待办</view>
-        <view 
-          class="tab {{filterStatus === 'completed' ? 'active' : ''}}" 
-          data-status="completed" 
-          bindtap="setFilter"
-        >已完成</view>
+        <view class="tab {{filterStatus === 'all' ? 'active' : ''}}" data-status="all" bindtap="setFilter">全部</view>
+        <view class="tab {{filterStatus === 'pending' ? 'active' : ''}}" data-status="pending" bindtap="setFilter">待办</view>
+        <view class="tab {{filterStatus === 'completed' ? 'active' : ''}}" data-status="completed" bindtap="setFilter">已完成</view>
       </view>
-      
+
       <view class="filter-actions">
         <view class="filter-btn" bindtap="showTypeFilter">
           <text>{{filterType === 'all' ? '类型' : filterType}}</text>
@@ -49,36 +43,33 @@
   <!-- Task List -->
   <scroll-view scroll-y class="task-list" enable-back-to-top>
     <block wx:if="{{tasks.length > 0}}">
-      <view 
-        class="task-card card {{item.status === 'completed' ? 'task-done' : ''}}" 
-        wx:for="{{tasks}}" 
-        wx:key="id"
-        bindtap="goToDetail"
-        data-id="{{item.id}}"
-        bindlongpress="showActionSheet"
-      >
+      <view class="task-card card {{item.status === 'completed' ? 'task-done' : ''}}" wx:for="{{tasks}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}" bindlongpress="showActionSheet">
         <view class="task-header">
-            <view class="tag tag-priority {{item.priority === '高' || item.priority === 'High' ? 'tag-high' : (item.priority === '低' || item.priority === 'Low' ? 'tag-low' : 'tag-medium')}}">{{item.priority}}</view>
-            <view class="tag tag-type">{{item.type}}</view>
+          <view class="tag tag-priority {{item.priority === '高' || item.priority === 'High' ? 'tag-high' : (item.priority === '低' || item.priority === 'Low' ? 'tag-low' : 'tag-medium')}}">{{item.priority}}</view>
+          <view class="tag tag-type">{{item.type}}</view>
         </view>
-        
+
         <view class="task-body">
-            <view class="checkbox {{item.status === 'completed' ? 'checked' : ''}}" catchtap="toggleTaskStatus" data-id="{{item.id}}">
-              <icon type="success_no_circle" size="16" color="#fff" wx:if="{{item.status === 'completed'}}" />
+          <view class="checkbox {{item.status === 'completed' ? 'checked' : ''}}" catchtap="toggleTaskStatus" data-id="{{item.id}}">
+            <icon type="success_no_circle" size="16" color="#fff" wx:if="{{item.status === 'completed'}}" />
+          </view>
+          <view class="task-content">
+            <view class="task-title">{{item.title}}</view>
+            <view class="task-date">
+              <text>截止：{{item.endDateTime || item.endDate}}</text>
+              <text class="overdue-tag" wx:if="{{item.isOverdue}}">已逾期</text>
+              <text class="due-soon-tag" wx:elif="{{item.isDueSoon}}">即将到期</text>
             </view>
-            <view class="task-content">
-                <view class="task-title">{{item.title}}</view>
-                <view class="task-date">
-                  <text>截止：{{item.endDateTime || item.endDate}}</text>
-                  <text class="overdue-tag" wx:if="{{item.isOverdue}}">已逾期</text>
-                  <text class="due-soon-tag" wx:elif="{{item.isDueSoon}}">即将到期</text>
-                </view>
-            </view>
+          </view>
         </view>
       </view>
     </block>
     <view wx:else class="empty-state">
+      <view class="empty-icon">
+        <icon type="info" size="64" color="#d0d0d0" />
+      </view>
       <view class="empty-text">暂无任务</view>
+      <view class="empty-hint">点击右下角按钮添加新任务</view>
     </view>
     <view class="spacer-bottom"></view>
   </scroll-view>
