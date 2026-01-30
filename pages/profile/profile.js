@@ -31,32 +31,29 @@ Page({
 
   loadStats(userId) {
       const tasks = storage.getTasks(userId);
+      // 统一处理：没有 status 或 status 不是 'completed' 的视为 'pending'
       const completedTasks = tasks.filter(t => t.status === 'completed');
-      const pendingTasks = tasks.filter(t => t.status === 'pending');
+      const pendingTasks = tasks.filter(t => t.status === 'pending' || !t.status);
       
-      // 计算逾期和即将到期的任务
+      // 计算逾期和即将到期的任务（只统计待办任务）
       let overdueTasks = 0;
       let dueSoonTasks = 0;
       
       pendingTasks.forEach(task => {
         const endDateTime = task.endDateTime || task.endDate;
-        if (util.isOverdue(endDateTime)) {
-          overdueTasks++;
-        } else if (util.isDueSoon(endDateTime)) {
-          dueSoonTasks++;
+        if (endDateTime) {
+          if (util.isOverdue(endDateTime)) {
+            overdueTasks++;
+          } else if (util.isDueSoon(endDateTime)) {
+            dueSoonTasks++;
+          }
         }
       });
       
-      // 计算完成率
-      // 确保数据一致性：completedTasks + pendingTasks = totalTasks
+      // 计算统计数据
       const totalCount = tasks.length;
       const completedCount = completedTasks.length;
       const pendingCount = pendingTasks.length;
-      
-      // 验证数据一致性（调试用，实际应该总是相等）
-      if (completedCount + pendingCount !== totalCount && totalCount > 0) {
-        console.warn('任务状态数据不一致:', { totalCount, completedCount, pendingCount });
-      }
       
       // 计算完成率：已完成任务数 / 总任务数 * 100
       let completionRate = 0;

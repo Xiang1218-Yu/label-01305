@@ -54,7 +54,8 @@ const getTasks = (userId, filters = {}) => {
 
 const getTaskById = (taskId) => {
     const tasks = wx.getStorageSync(TASKS_KEY) || [];
-    return tasks.find(t => t.id === taskId);
+    const idStr = String(taskId);
+    return tasks.find(t => String(t.id) === idStr);
 }
 
 const addTask = (task) => {
@@ -72,7 +73,9 @@ const addTask = (task) => {
 
 const updateTask = (taskId, updates) => {
   let tasks = wx.getStorageSync(TASKS_KEY) || [];
-  const index = tasks.findIndex(t => t.id === taskId);
+  // 确保ID类型一致（都转为字符串进行比较）
+  const idStr = String(taskId);
+  const index = tasks.findIndex(t => String(t.id) === idStr);
   if (index > -1) {
     tasks[index] = { ...tasks[index], ...updates };
     wx.setStorageSync(TASKS_KEY, tasks);
@@ -83,7 +86,8 @@ const updateTask = (taskId, updates) => {
 
 const deleteTask = (taskId) => {
   let tasks = wx.getStorageSync(TASKS_KEY) || [];
-  const newTasks = tasks.filter(t => t.id !== taskId);
+  const idStr = String(taskId);
+  const newTasks = tasks.filter(t => String(t.id) !== idStr);
   wx.setStorageSync(TASKS_KEY, newTasks);
 };
 

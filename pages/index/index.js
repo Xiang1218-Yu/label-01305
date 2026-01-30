@@ -5,11 +5,7 @@ const app = getApp();
 Page({
   data: {
     tasks: [],
-    filterStatus: 'all', // all, pending, completed
-    filterType: 'all', // all, 工作, 个人, 学习, 其他
-    sortType: 'time', // time, priority, status
-    sortOptions: ['按时间', '按优先级', '按状态'],
-    sortIndex: 0, // 对应 sortOptions 的索引
+    filterStatus: 'all',
     searchQuery: '',
     userInfo: null,
     theme: 'light',
@@ -25,7 +21,6 @@ Page({
   onShow() {
     this.setData({ theme: app.globalData.theme });
     this.checkLogin();
-    this.initSortIndex();
     this.updateGreeting();
     this.updateDate();
     this.loadTasks();
@@ -64,13 +59,6 @@ Page({
     this.setData({ currentDate: dateStr });
   },
 
-  // 初始化排序索引
-  initSortIndex() {
-    const sortTypeMap = { 'time': 0, 'priority': 1, 'status': 2 };
-    const sortIndex = sortTypeMap[this.data.sortType] || 0;
-    this.setData({ sortIndex });
-  },
-
   checkLogin() {
     const userInfo = app.globalData.userInfo || storage.getCurrentUser();
     if (!userInfo) {
@@ -93,28 +81,27 @@ Page({
       filters.status = this.data.filterStatus;
     }
 
-    // 获取所有任务用于统计
+    // 获取所有任务用于统计（不使用筛选，获取全部任务）
     const allTasks = storage.getTasks(this.data.userInfo.id, {});
     
-    // 计算统计数据
+    // 计算统计数据（与 profile.js 保持一致）
+    const completedTasks = allTasks.filter(t => t.status === 'completed');
+    const pendingTasks = allTasks.filter(t => t.status === 'pending' || !t.status);
+    
     const stats = {
-      pending: allTasks.filter(t => t.status !== 'completed').length,
-      completed: allTasks.filter(t => t.status === 'completed').length,
-      overdue: allTasks.filter(t => {
+      pending: pendingTasks.length,
+      completed: completedTasks.length,
+      overdue: pendingTasks.filter(t => {
         const endDateTime = t.endDateTime || t.endDate;
-        return t.status !== 'completed' && util.isOverdue(endDateTime);
+        return endDateTime && util.isOverdue(endDateTime);
       }).length
     };
     this.setData({ stats });
 
+    // 获取筛选后的任务列表
     let tasks = storage.getTasks(this.data.userInfo.id, filters);
     
-    // 应用类型筛选
-    if (this.data.filterType !== 'all') {
-      tasks = tasks.filter(task => task.type === this.data.filterType);
-    }
-    
-    // 添加逾期和即将到期标记
+    // 添加逾期和即将到期标记并按时间排序
     tasks = tasks.map(task => {
       const endDateTime = task.endDateTime || task.endDate;
       return {
@@ -122,36 +109,13 @@ Page({
         isOverdue: util.isOverdue(endDateTime),
         isDueSoon: util.isDueSoon(endDateTime)
       };
+    }).sort((a, b) => {
+      const aTime = new Date((a.endDateTime || a.endDate).replace(/-/g, '/')).getTime();
+      const bTime = new Date((b.endDateTime || b.endDate).replace(/-/g, '/')).getTime();
+      return aTime - bTime;
     });
     
-    // 应用排序
-    tasks = this.applySort(tasks);
-    
     this.setData({ tasks });
-  },
-
-  // 应用排序
-  applySort(tasks) {
-    const sortType = this.data.sortType || 'time'; // time, priority, status
-    
-    switch(sortType) {
-      case 'priority':
-        const priorityOrder = { '高': 3, '中': 2, '低': 1, 'High': 3, 'Medium': 2, 'Low': 1 };
-        return tasks.sort((a, b) => (priorityOrder[b.priority] || 0) - (priorityOrder[a.priority] || 0));
-      case 'status':
-        return tasks.sort((a, b) => {
-          if (a.status === 'completed' && b.status !== 'completed') return 1;
-          if (a.status !== 'completed' && b.status === 'completed') return -1;
-          return 0;
-        });
-      case 'time':
-      default:
-        return tasks.sort((a, b) => {
-          const aTime = new Date((a.endDateTime || a.endDate).replace(/-/g, '/')).getTime();
-          const bTime = new Date((b.endDateTime || b.endDate).replace(/-/g, '/')).getTime();
-          return aTime - bTime;
-        });
-    }
   },
 
   setFilter(e) {
@@ -161,37 +125,8 @@ Page({
     });
   },
 
-  showTypeFilter() {
-    const types = ['all', '工作', '个人', '学习', '其他'];
-    wx.showActionSheet({
-      itemList: ['全部', '工作', '个人', '学习', '其他'],
-      success: (res) => {
-        this.setData({ filterType: types[res.tapIndex] }, () => {
-          this.loadTasks();
-        });
-      }
-    });
-  },
-
-  bindSortChange(e) {
-    const index = e.detail.value;
-    const sortTypeMap = ['time', 'priority', 'status'];
-    const sortType = sortTypeMap[index];
-    
-    this.setData({ 
-      sortIndex: index,
-      sortType: sortType 
-    }, () => {
-      this.loadTasks();
-    });
-  },
-
   handleSearchInput(e) {
-      this.setData({ searchQuery: e.detail.value });
-      this.loadTasks(); // Realtime search or wait for confirm
-  },
-
-  handleSearch(e) {
+    this.setData({ searchQuery: e.detail.value });
     this.loadTasks();
   },
 
@@ -210,11 +145,19 @@ Page({
 
   toggleTaskStatus(e) {
     const id = e.currentTarget.dataset.id;
-    const task = this.data.tasks.find(t => t.id === id);
-    if (!task) return;
+    const task = this.data.tasks.find(t => String(t.id) === String(id));
+    if (!task) {
+      wx.showToast({ title: '任务不存在', icon: 'none' });
+      return;
+    }
 
     const newStatus = task.status === 'completed' ? 'pending' : 'completed';
-    storage.updateTask(id, { status: newStatus });
+    const success = storage.updateTask(id, { status: newStatus });
+    
+    if (!success) {
+      wx.showToast({ title: '更新失败', icon: 'none' });
+      return;
+    }
     
     wx.showToast({
       title: newStatus === 'completed' ? '已完成！' : '已重新打开',
@@ -222,6 +165,7 @@ Page({
       duration: 1000
     });
 
+    // 立即更新数据，不等待toast完成
     this.loadTasks();
   },
 
