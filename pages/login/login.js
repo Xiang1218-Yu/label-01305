@@ -25,8 +25,15 @@ Page({
   },
 
   togglePassword() {
+    const newShowPassword = !this.data.showPassword;
     this.setData({
-      showPassword: !this.data.showPassword
+      showPassword: newShowPassword
+    });
+  },
+
+  onPasswordInput(e) {
+    this.setData({
+      password: e.detail.value
     });
   },
 

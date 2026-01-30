@@ -12,11 +12,12 @@
       <view class="password-input-wrapper">
         <input 
           class="input password-input" 
-          type="{{showPassword ? 'text' : 'password'}}" 
+          password="{{!showPassword}}"
           placeholder="请输入密码" 
-          model:value="{{password}}" 
+          value="{{password}}"
+          bindinput="onPasswordInput"
         />
-        <view class="password-toggle" bindtap="togglePassword">
+        <view class="password-toggle" catchtap="togglePassword">
           <image 
             class="password-icon" 
             src="{{showPassword ? '/assets/closes-eyes.png' : '/assets/eyes.png'}}" 
