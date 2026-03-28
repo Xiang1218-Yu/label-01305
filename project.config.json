@@ -50,7 +50,7 @@
     "minifyWXML": true
   },
   "compileType": "miniprogram",
-  "libVersion": "3.14.1",
+  "libVersion": "3.15.1",
   "appid": "wx2aefbd32eb051c2c",
   "projectname": "task-notepad",
   "condition": {},
