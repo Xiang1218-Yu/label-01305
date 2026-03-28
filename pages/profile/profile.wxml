@@ -37,23 +37,23 @@
   </view>
 
   <view class="stats-grid">
-     <view class="stat-card card">
+     <view class="stat-card card" bindtap="goToTaskList" data-type="total">
         <view class="stat-num">{{totalTasks}}</view>
         <view class="stat-label">总数</view>
      </view>
-     <view class="stat-card card">
+     <view class="stat-card card" bindtap="goToTaskList" data-type="completed">
         <view class="stat-num">{{completedTasks}}</view>
         <view class="stat-label">已完成</view>
      </view>
-     <view class="stat-card card">
+     <view class="stat-card card" bindtap="goToTaskList" data-type="pending">
         <view class="stat-num">{{pendingTasks}}</view>
         <view class="stat-label">待办</view>
      </view>
-     <view class="stat-card card stat-warning">
+     <view class="stat-card card stat-warning" bindtap="goToTaskList" data-type="overdue">
         <view class="stat-num">{{overdueTasks}}</view>
         <view class="stat-label">已逾期</view>
      </view>
-     <view class="stat-card card stat-info">
+     <view class="stat-card card stat-info" bindtap="goToTaskList" data-type="dueSoon">
         <view class="stat-num">{{dueSoonTasks}}</view>
         <view class="stat-label">即将到期</view>
      </view>
