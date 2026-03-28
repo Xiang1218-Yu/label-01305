@@ -1,0 +1,46 @@
+<view class="container" data-theme="{{theme}}">
+  <!-- 顶部返回按钮和标题 -->
+  <view class="header">
+    <view class="back-btn" bindtap="goBack">
+      <text class="back-icon">←</text>
+      <text>返回</text>
+    </view>
+    <view class="header-title">{{filterLabel}}</view>
+    <view class="header-right"></view>
+  </view>
+
+  <!-- 任务列表 -->
+  <view class="task-list">
+    <block wx:if="{{tasks.length > 0}}">
+      <view 
+        class="task-item card" 
+        wx:for="{{tasks}}" 
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="goToDetail"
+      >
+        <view class="task-left">
+          <view class="task-checkbox {{item.status === 'completed' ? 'checked' : ''}}" catchtap="toggleTaskStatus">
+            <view class="checkbox-icon" wx:if="{{item.status === 'completed'}}">✓</view>
+          </view>
+        </view>
+        <view class="task-content">
+          <view class="task-title {{item.status === 'completed' ? 'completed' : ''}}">{{item.title}}</view>
+          <view class="task-desc {{item.status === 'completed' ? 'completed' : ''}}">{{item.desc}}</view>
+          <view class="task-meta">
+            <text class="task-date">{{item.endDate || item.endDateTime ? (formatDate(item.endDate || item.endDateTime)) : '无截止日期'}}</text>
+            <view wx:if="{{item.status === 'pending' || !item.status}}" class="task-status">
+            <text wx:if="{{item.isOverdue}}" class="status-overdue">已逾期</text>
+            <text wx:elif="{{item.isDueSoon}}" class="status-soon">即将到期</text>
+          </view>
+          </view>
+        </view>
+        <view class="task-arrow">›</view>
+      </view>
+    </block>
+    <view class="empty-state" wx:else>
+      <view class="empty-icon">📋</view>
+      <view class="empty-text">暂无{{filterLabel}}</view>
+    </view>
+  </view>
+</view>
