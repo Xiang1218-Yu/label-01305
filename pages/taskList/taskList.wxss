@@ -1,0 +1,189 @@
+/* pages/taskList/taskList.wxss */
+.container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 20rpx;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 30rpx;
+  background-color: #ffffff;
+  border-bottom: 1rpx solid #eeeeee;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  font-size: 32rpx;
+  color: #007aff;
+  cursor: pointer;
+}
+
+.back-icon {
+  margin-right: 10rpx;
+  font-size: 36rpx;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.header-right {
+  width: 120rpx;
+}
+
+.task-list {
+  padding: 20rpx 30rpx;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 20rpx;
+  margin-bottom: 20rpx;
+  background-color: #ffffff;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.task-left {
+  margin-right: 20rpx;
+}
+
+.task-checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2rpx solid #cccccc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.task-checkbox.checked {
+  background-color: #007aff;
+  border-color: #007aff;
+}
+
+.checkbox-icon {
+  color: #ffffff;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.task-content {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.task-title {
+  font-size: 32rpx;
+  color: #333333;
+  margin-bottom: 10rpx;
+  line-height: 1.4;
+}
+
+.task-title.completed {
+  text-decoration: line-through;
+  color: #999999;
+}
+
+.task-desc {
+  font-size: 28rpx;
+  color: #666666;
+  margin-bottom: 15rpx;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.task-desc.completed {
+  text-decoration: line-through;
+  color: #999999;
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-date {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.task-status {
+  display: flex;
+}
+
+.status-overdue {
+  font-size: 24rpx;
+  color: #ff3b30;
+  background-color: #ffeeee;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.status-soon {
+  font-size: 24rpx;
+  color: #ff9500;
+  background-color: #fff3e0;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.task-arrow {
+  font-size: 32rpx;
+  color: #cccccc;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 100rpx 40rpx;
+}
+
+.empty-icon {
+  font-size: 100rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #999999;
+}
+
+/* 主题适配 */
+.container[data-theme="eye-protect"] {
+  background-color: #f5f5dc;
+}
+
+.container[data-theme="eye-protect"] .header,
+.container[data-theme="eye-protect"] .task-item {
+  background-color: #fffacd;
+}
+
+.container[data-theme="eye-protect"] .task-title {
+  color: #6b4226;
+}
+
+.container[data-theme="eye-protect"] .task-desc {
+  color: #8b6914;
+}
+
+.container[data-theme="eye-protect"] .task-date {
+  color: #a0826d;
+}

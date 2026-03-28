@@ -3,7 +3,8 @@
     "pages/login/login",
     "pages/index/index",
     "pages/detail/detail",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/taskList/taskList"
   ],
   "window": {
     "backgroundTextStyle": "light",
