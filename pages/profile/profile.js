@@ -173,5 +173,12 @@ Page({
     wx.reLaunch({
       url: '/pages/login/login'
     });
+  },
+
+  goToTaskList(e) {
+    const type = e.currentTarget.dataset.type;
+    wx.navigateTo({
+      url: `/pages/task-list/task-list?type=${type}`
+    });
   }
 });
