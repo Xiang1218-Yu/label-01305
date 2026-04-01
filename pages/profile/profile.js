@@ -167,6 +167,12 @@ Page({
     });
   },
 
+  changePassword() {
+    wx.navigateTo({
+      url: '/pages/changePassword/changePassword'
+    });
+  },
+
   handleLogout() {
     storage.logout();
     app.globalData.userInfo = null;
