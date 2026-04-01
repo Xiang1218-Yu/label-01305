@@ -11,6 +11,10 @@
       <view class="menu-label">护眼模式</view>
       <switch checked="{{theme === 'eye-protect'}}" bindchange="toggleTheme" color="var(--primary-color)" />
     </view>
+    <view class="menu-item" bindtap="changePassword">
+      <view class="menu-label">修改密码</view>
+      <icon type="forward" size="16" color="#999" />
+    </view>
     <view class="menu-item" bindtap="exportTasks">
       <view class="menu-label">导出任务</view>
       <icon type="download" size="16" color="#999" />
