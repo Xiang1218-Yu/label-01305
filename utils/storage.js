@@ -63,6 +63,39 @@ const getCurrentUser = () => {
   return wx.getStorageSync('currentUser');
 };
 
+const changePassword = (oldPassword, newPassword) => {
+  const currentUser = wx.getStorageSync('currentUser');
+  if (!currentUser) {
+    return { success: false, message: '请先登录' };
+  }
+
+  const users = wx.getStorageSync(USERS_KEY) || [];
+  const userIndex = users.findIndex(u => u.id === currentUser.id);
+  
+  if (userIndex === -1) {
+    return { success: false, message: '用户不存在' };
+  }
+
+  const user = users[userIndex];
+  
+  let oldPasswordMatch = false;
+  if (crypto.verifyPassword(oldPassword, user.password)) {
+    oldPasswordMatch = true;
+  } else if (user.password === oldPassword) {
+    oldPasswordMatch = true;
+  }
+
+  if (!oldPasswordMatch) {
+    return { success: false, message: '原密码错误' };
+  }
+
+  const passwordHash = crypto.hashPassword(newPassword);
+  users[userIndex].password = passwordHash;
+  wx.setStorageSync(USERS_KEY, users);
+  
+  return { success: true, message: '密码修改成功' };
+};
+
 // --- Task Service ---
 
 const getTasks = (userId, filters = {}) => {
@@ -125,6 +158,7 @@ module.exports = {
   login,
   logout,
   getCurrentUser,
+  changePassword,
   getTasks,
   getTaskById,
   addTask,
