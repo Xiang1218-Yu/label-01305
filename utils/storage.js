@@ -59,6 +59,24 @@ const logout = () => {
   wx.removeStorageSync('currentUser');
 };
 
+const changePassword = (userId, oldPassword, newPassword) => {
+  const users = wx.getStorageSync(USERS_KEY) || [];
+  const user = users.find(u => u.id === userId);
+  
+  if (!user) {
+    return { success: false, message: '用户不存在' };
+  }
+  
+  if (!crypto.verifyPassword(oldPassword, user.password)) {
+    return { success: false, message: '原密码错误' };
+  }
+  
+  user.password = crypto.hashPassword(newPassword);
+  wx.setStorageSync(USERS_KEY, users);
+  
+  return { success: true, message: '密码修改成功' };
+};
+
 const getCurrentUser = () => {
   return wx.getStorageSync('currentUser');
 };
@@ -124,6 +142,7 @@ module.exports = {
   register,
   login,
   logout,
+  changePassword,
   getCurrentUser,
   getTasks,
   getTaskById,
