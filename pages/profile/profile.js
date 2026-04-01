@@ -173,5 +173,11 @@ Page({
     wx.reLaunch({
       url: '/pages/login/login'
     });
+  },
+
+  navigateToChangePassword() {
+    wx.navigateTo({
+      url: '/pages/changePassword/changePassword'
+    });
   }
 });
