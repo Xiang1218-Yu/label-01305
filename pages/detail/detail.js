@@ -36,6 +36,8 @@ Page({
     if (options.id) {
       this.setData({ isEdit: true, taskId: options.id });
       this.loadTask(options.id);
+    } else if (options.templateId) {
+      this.loadTemplateData(options.templateId);
     } else {
       // 设置默认时间为当前时间
       const now = new Date();
@@ -46,6 +48,35 @@ Page({
         endDateTime,
         timeError: '' // 初始化时清除错误
       });
+      this.updateDateTimeIndex('start', startDateTime);
+      this.updateDateTimeIndex('end', endDateTime);
+    }
+  },
+
+  loadTemplateData(templateId) {
+    const template = storage.getTaskTemplateById(templateId);
+    if (template) {
+      const priorityMap = { 'high': '高', 'medium': '中', 'low': '低', '高': '高', '中': '中', '低': '低' };
+      const typeMap = { 'work': '工作', 'personal': '个人', 'study': '学习', 'other': '其他', '工作': '工作', '个人': '个人', '学习': '学习', '其他': '其他' };
+
+      const priority = priorityMap[template.priority] || '中';
+      const type = typeMap[template.type] || '个人';
+
+      // 设置默认时间为当前时间
+      const now = new Date();
+      const startDateTime = util.formatDateTime(now);
+      const endDateTime = util.formatDateTime(new Date(now.getTime() + 24 * 60 * 60 * 1000));
+
+      this.setData({
+        title: template.title,
+        desc: template.desc || '',
+        priorityIndex: this.data.priorities.indexOf(priority) >= 0 ? this.data.priorities.indexOf(priority) : 1,
+        typeIndex: this.data.types.indexOf(type) >= 0 ? this.data.types.indexOf(type) : 1,
+        startDateTime,
+        endDateTime,
+        timeError: ''
+      });
+
       this.updateDateTimeIndex('start', startDateTime);
       this.updateDateTimeIndex('end', endDateTime);
     }

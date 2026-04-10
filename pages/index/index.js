@@ -142,8 +142,40 @@ Page({
   },
 
   goToAdd() {
-    wx.navigateTo({
-      url: '/pages/detail/detail'
+    const templates = storage.getTaskTemplates(this.data.userInfo.id);
+    const itemList = ['新建空白任务'];
+    
+    if (templates && templates.length > 0) {
+      itemList.push('从模板创建');
+    }
+    
+    wx.showActionSheet({
+      itemList: itemList,
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          wx.navigateTo({
+            url: '/pages/detail/detail'
+          });
+        } else if (res.tapIndex === 1) {
+          this.chooseTemplate();
+        }
+      }
+    });
+  },
+
+  chooseTemplate() {
+    const templates = storage.getTaskTemplates(this.data.userInfo.id);
+    const templateNames = templates.map(t => t.title);
+    
+    wx.showActionSheet({
+      itemList: templateNames,
+      itemColor: '#0052d9',
+      success: (res) => {
+        const selectedTemplate = templates[res.tapIndex];
+        wx.navigateTo({
+          url: `/pages/detail/detail?templateId=${selectedTemplate.id}`
+        });
+      }
     });
   },
 

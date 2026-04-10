@@ -1,0 +1,43 @@
+<view class="container">
+  <view class="card form-card">
+    <view class="form-group">
+      <view class="label">模板标题</view>
+      <input class="input" placeholder="请输入模板标题" value="{{title}}" bindinput="bindTitleInput" />
+    </view>
+
+    <view class="form-group">
+      <view class="label">模板描述（任务内容预设）</view>
+      <textarea class="textarea" placeholder="请输入模板描述..." value="{{desc}}" bindinput="bindDescInput" auto-height />
+    </view>
+
+    <view class="form-row">
+      <view class="form-group half">
+        <view class="label">默认优先级</view>
+        <picker range="{{priorities}}" bindchange="bindPriorityChange" value="{{priorityIndex}}">
+          <view class="picker-display">
+            {{priorities[priorityIndex] || '请选择'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-group half">
+        <view class="label">任务类型</view>
+        <picker range="{{types}}" bindchange="bindTypeChange" value="{{typeIndex}}">
+          <view class="picker-display">
+            {{types[typeIndex] || '请选择'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="label">开启提醒</view>
+      <switch checked="{{reminder}}" bindchange="bindReminderChange" color="#0052d9" />
+    </view>
+
+    <view class="actions">
+      <button class="btn btn-danger" wx:if="{{isEdit}}" bindtap="deleteTemplate">删除</button>
+      <button class="btn btn-primary" bindtap="saveTemplate">保存模板</button>
+    </view>
+  </view>
+</view>
