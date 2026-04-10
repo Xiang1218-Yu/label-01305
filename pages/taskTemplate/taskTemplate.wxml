@@ -1,0 +1,59 @@
+<view class="container">
+  <view class="header-actions">
+    <button class="btn btn-primary" bindtap="goToSelectTemplate">选择模板创建任务</button>
+  </view>
+
+  <view class="template-list" wx:if="{{templates.length > 0}}">
+    <view class="template-card" wx:for="{{templates}}" wx:key="id">
+      <view class="template-header">
+        <view class="template-name">{{item.name}}</view>
+        <view class="template-actions">
+          <text class="action-text edit-action" bindtap="showEditModal" data-template="{{item}}">编辑</text>
+          <text class="action-text delete-action" bindtap="deleteTemplate" data-id="{{item.id}}">删除</text>
+        </view>
+      </view>
+      <view class="template-content">
+        <view class="content-row">
+          <text class="label">标题：</text>
+          <text class="value">{{item.title}}</text>
+        </view>
+        <view class="content-row" wx:if="{{item.desc}}">
+          <text class="label">描述：</text>
+          <text class="value">{{item.desc}}</text>
+        </view>
+        <view class="content-row">
+          <text class="label">优先级：</text>
+          <text class="value">{{item.priority === 'high' ? '高' : item.priority === 'low' ? '低' : '中'}}</text>
+        </view>
+      </view>
+      <button class="btn use-btn" bindtap="useTemplate" data-template="{{item}}">使用此模板</button>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <image src="/assets/empty-template.png" mode="aspectFit" wx:if="{{false}}"></image>
+    <view class="empty-text">暂无模板，点击下方按钮添加</view>
+  </view>
+
+  <button class="add-btn" bindtap="showAddModal">+ 新建模板</button>
+
+  <view class="modal-overlay" wx:if="{{showModal}}" bindtap="closeModal"></view>
+  <view class="modal" wx:if="{{showModal}}">
+    <view class="modal-header">{{editingTemplate ? '编辑模板' : '新建模板'}}</view>
+    <view class="modal-body">
+      <input class="input" placeholder="模板名称（如：每日例会）" value="{{templateName}}" bindinput="onNameInput" />
+      <input class="input" placeholder="任务标题" value="{{templateTitle}}" bindinput="onTitleInput" />
+      <textarea class="textarea" placeholder="任务描述" value="{{templateDesc}}" bindinput="onDescInput" />
+      <picker class="picker" value="{{templatePriority}}" range="{{['low', 'normal', 'high']}}" range-key="{{'value'}}" bindchange="onPriorityChange">
+        <view class="picker-text">优先级：{{templatePriority === 'high' ? '高' : templatePriority === 'low' ? '低' : '中'}}</view>
+      </picker>
+      <picker class="picker" value="{{templateCategory}}" range="{{['work', 'personal', 'study', 'other']}}" bindchange="onCategoryChange">
+        <view class="picker-text">分类：{{templateCategory === 'work' ? '工作' : templateCategory === 'personal' ? '个人' : templateCategory === 'study' ? '学习' : '其他'}}</view>
+      </picker>
+    </view>
+    <view class="modal-footer">
+      <button class="btn modal-btn cancel-btn" bindtap="closeModal">取消</button>
+      <button class="btn modal-btn confirm-btn" bindtap="saveTemplate">保存</button>
+    </view>
+  </view>
+</view>

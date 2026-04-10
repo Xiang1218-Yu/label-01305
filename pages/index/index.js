@@ -147,6 +147,12 @@ Page({
     });
   },
 
+  goToSelectTemplate() {
+    wx.navigateTo({
+      url: '/pages/templateSelect/templateSelect'
+    });
+  },
+
   goToDetail(e) {
     const id = e.currentTarget.dataset.id;
     wx.navigateTo({

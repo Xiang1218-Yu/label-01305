@@ -167,6 +167,12 @@ Page({
     });
   },
 
+  goToTaskTemplates() {
+    wx.navigateTo({
+      url: '/pages/taskTemplate/taskTemplate'
+    });
+  },
+
   handleLogout() {
     storage.logout();
     app.globalData.userInfo = null;

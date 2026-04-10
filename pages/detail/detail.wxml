@@ -1,5 +1,9 @@
 <view class="container" data-theme="{{theme}}">
   <view class="card form-card">
+    <view wx:if="{{!isEdit}}" class="template-import" bindtap="goToSelectTemplate">
+      <text>从常用模板导入</text>
+      <image class="arrow-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBmaWxsPSIjOTk5IiBkPSJNNS44NTQgMTMuNjQ2TDkuNTA3IDEwSDQuNWEuNS41IDAgMCAxIDAtMWg1LjAwN0w1Ljg1NCA1LjY0NmEuNS41IDAgMCAxIC43MDgtLjcwOGw1IDVhLjUuNSAwIDAgMSAwIC43MDhsLTUgNWEuNS41IDAgMCAxLS43MDgtLjcwOHoiLz48L3N2Zz4=" mode="aspectFit" />
+    </view>
     <view class="form-group">
       <view class="label">任务标题</view>
       <input class="input" placeholder="请输入任务标题" model:value="{{title}}" />

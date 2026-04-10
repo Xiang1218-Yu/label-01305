@@ -3,7 +3,9 @@
     "pages/login/login",
     "pages/index/index",
     "pages/detail/detail",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/taskTemplate/taskTemplate",
+    "pages/templateSelect/templateSelect"
   ],
   "window": {
     "backgroundTextStyle": "light",

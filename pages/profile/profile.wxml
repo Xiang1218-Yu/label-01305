@@ -19,6 +19,10 @@
       <view class="menu-label">清理已完成</view>
       <icon type="clear" size="16" color="#999" />
     </view>
+    <view class="menu-item" bindtap="goToTaskTemplates">
+      <view class="menu-label">常用任务模板</view>
+      <icon type="success" size="16" color="#999" />
+    </view>
   </view>
   
   <!-- 完成率卡片 -->

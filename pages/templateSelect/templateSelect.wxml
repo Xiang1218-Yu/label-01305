@@ -1,0 +1,33 @@
+<view class="container">
+  <view class="header-hint">点击模板直接创建任务</view>
+
+  <view class="template-list" wx:if="{{templates.length > 0}}">
+    <view class="template-card" wx:for="{{templates}}" wx:key="id" bindtap="selectTemplate" data-template="{{item}}">
+      <view class="card-header">
+        <view class="template-icon">
+          <text class="icon-text">{{item.name[0]}}</text>
+        </view>
+        <view class="header-content">
+          <view class="template-name">{{item.name}}</view>
+          <view class="template-meta">
+            <text class="meta-priority priority-{{item.priority || 'normal'}}">
+              {{item.priority === 'high' ? '高优' : item.priority === 'low' ? '低优' : '中优'}}
+            </text>
+            <text class="meta-category">
+              {{item.category === 'work' ? '工作' : item.category === 'personal' ? '个人' : item.category === 'study' ? '学习' : '其他'}}
+            </text>
+          </view>
+        </div>
+      </view>
+      <view class="card-body">
+        <view class="task-title">「{{item.title}}」</view>
+        <view class="task-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <view class="empty-text">暂无模板，先去创建吧~</view>
+    <button class="btn btn-primary" bindtap="goToManageTemplates">创建模板</button>
+  </view>
+</view>

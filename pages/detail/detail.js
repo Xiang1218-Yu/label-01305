@@ -30,25 +30,47 @@ Page({
   },
 
   onLoad(options) {
-    // 初始化日期时间选择器数据
     this.initDateTimePicker();
 
     if (options.id) {
       this.setData({ isEdit: true, taskId: options.id });
       this.loadTask(options.id);
+    } else if (options.template) {
+      this.loadFromTemplate(options.template);
     } else {
-      // 设置默认时间为当前时间
       const now = new Date();
       const startDateTime = util.formatDateTime(now);
-      const endDateTime = util.formatDateTime(new Date(now.getTime() + 24 * 60 * 60 * 1000)); // 默认截止时间为明天
+      const endDateTime = util.formatDateTime(new Date(now.getTime() + 24 * 60 * 60 * 1000));
       this.setData({
         startDateTime,
         endDateTime,
-        timeError: '' // 初始化时清除错误
+        timeError: ''
       });
       this.updateDateTimeIndex('start', startDateTime);
       this.updateDateTimeIndex('end', endDateTime);
     }
+  },
+
+  loadFromTemplate(templateJson) {
+    const template = JSON.parse(decodeURIComponent(templateJson));
+    const now = new Date();
+    const startDateTime = util.formatDateTime(now);
+    const endDateTime = util.formatDateTime(new Date(now.getTime() + 24 * 60 * 60 * 1000));
+    
+    const priorityMap = { 'high': 0, 'normal': 1, 'low': 2 };
+    const typeMap = { 'work': 0, 'personal': 1, 'study': 2, 'other': 3 };
+    
+    this.setData({
+      title: template.title,
+      desc: template.desc || '',
+      priorityIndex: priorityMap[template.priority] !== undefined ? priorityMap[template.priority] : 1,
+      typeIndex: typeMap[template.category] !== undefined ? typeMap[template.category] : 1,
+      startDateTime,
+      endDateTime,
+      timeError: ''
+    });
+    this.updateDateTimeIndex('start', startDateTime);
+    this.updateDateTimeIndex('end', endDateTime);
   },
 
   // 初始化日期时间选择器
@@ -280,7 +302,9 @@ Page({
     }
 
     setTimeout(() => {
-      wx.navigateBack();
+      wx.switchTab({
+        url: '/pages/index/index'
+      });
     }, 1000);
   },
 
@@ -296,5 +320,11 @@ Page({
               }
           }
       })
+  },
+
+  goToSelectTemplate() {
+    wx.navigateTo({
+      url: '/pages/templateSelect/templateSelect'
+    });
   }
 });

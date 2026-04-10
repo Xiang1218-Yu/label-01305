@@ -71,3 +71,21 @@
 .actions button:only-child {
   max-width: 100%;
 }
+
+.template-import {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  background: #f0f7ff;
+  border-radius: 8rpx;
+  margin-bottom: 30rpx;
+  color: #0052d9;
+  font-size: 28rpx;
+}
+
+.template-import .arrow-icon {
+  width: 32rpx;
+  height: 32rpx;
+  opacity: 0.6;
+}
