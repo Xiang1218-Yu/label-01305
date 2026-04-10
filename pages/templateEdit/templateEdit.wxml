@@ -1,0 +1,37 @@
+<view class="container" data-theme="{{theme}}">
+  <view class="form card">
+    <view class="form-item">
+      <view class="label">模板名称 <text class="required">*</text></view>
+      <input class="input" placeholder="例如：每日晨会" value="{{name}}" bindinput="bindNameInput" />
+    </view>
+
+    <view class="form-item">
+      <view class="label">优先级</view>
+      <picker mode="selector" range="{{priorities}}" value="{{priorityIndex}}" bindchange="bindPriorityChange">
+        <view class="picker">{{priorities[priorityIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <view class="label">任务类型</view>
+      <picker mode="selector" range="{{types}}" value="{{typeIndex}}" bindchange="bindTypeChange">
+        <view class="picker">{{types[typeIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <view class="label">默认时长（小时）</view>
+      <input class="input" type="digit" placeholder="例如：1" value="{{defaultDuration}}" bindinput="bindDurationInput" />
+    </view>
+
+    <view class="form-item">
+      <view class="label">模板描述</view>
+      <textarea class="textarea" placeholder="输入任务描述模板..." value="{{desc}}" bindinput="bindDescInput" />
+    </view>
+  </view>
+
+  <view class="btn-group">
+    <view class="btn btn-primary" bindtap="saveTemplate">保存</view>
+    <view class="btn btn-danger" wx:if="{{isEdit}}" bindtap="deleteTemplate">删除</view>
+  </view>
+</view>

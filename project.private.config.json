@@ -3,5 +3,6 @@
   "projectname": "task-notepad",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "libVersion": "3.15.2"
 }

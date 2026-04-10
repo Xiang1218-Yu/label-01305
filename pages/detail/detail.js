@@ -284,6 +284,12 @@ Page({
     }, 1000);
   },
 
+  goToTemplates() {
+    wx.navigateTo({
+      url: '/pages/templateList/templateList'
+    });
+  },
+
   deleteTask() {
       const { taskId } = this.data;
       wx.showModal({
