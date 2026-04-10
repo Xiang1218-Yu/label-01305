@@ -1,0 +1,45 @@
+<view class="container" data-theme="{{theme}}">
+  <view class="template-preview card" wx:if="{{template}}">
+    <view class="preview-title">{{template.name}}</view>
+    <view class="preview-tags">
+      <view class="tag priority-tag">{{template.priority}}</view>
+      <view class="tag type-tag">{{template.type}}</view>
+      <view class="tag duration-tag" wx:if="{{template.defaultDuration}}">{{template.defaultDuration}}小时</view>
+    </view>
+    <view class="preview-desc" wx:if="{{template.desc}}">{{template.desc}}</view>
+  </view>
+
+  <view class="time-form card">
+    <view class="form-title">设置任务时间</view>
+    
+    <view class="time-section">
+      <view class="time-label">开始时间</view>
+      <view class="time-picker-group">
+        <picker mode="date" value="{{startDate}}" bindchange="bindStartDateChange">
+          <view class="time-picker">{{startDate}}</view>
+        </picker>
+        <picker mode="time" value="{{startTime}}" bindchange="bindStartTimeChange">
+          <view class="time-picker">{{startTime}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="time-section">
+      <view class="time-label">结束时间</view>
+      <view class="time-picker-group">
+        <picker mode="date" value="{{endDate}}" bindchange="bindEndDateChange">
+          <view class="time-picker">{{endDate}}</view>
+        </picker>
+        <picker mode="time" value="{{endTime}}" bindchange="bindEndTimeChange">
+          <view class="time-picker">{{endTime}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="error-tip" wx:if="{{timeError}}">{{timeError}}</view>
+  </view>
+
+  <view class="btn-group">
+    <view class="btn btn-primary" bindtap="createTask">创建任务</view>
+  </view>
+</view>

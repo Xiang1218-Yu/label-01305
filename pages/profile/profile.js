@@ -167,6 +167,12 @@ Page({
     });
   },
 
+  goToTemplates() {
+    wx.navigateTo({
+      url: '/pages/templateList/templateList'
+    });
+  },
+
   handleLogout() {
     storage.logout();
     app.globalData.userInfo = null;

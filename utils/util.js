@@ -32,15 +32,29 @@ const formatDateTime = date => {
   return `${[year, month, day].map(formatNumber).join('-')} ${[hour, minute, second].map(formatNumber).join(':')}`
 }
 
-const formatDateOnly = dateStr => {
-  if (!dateStr) return '';
-  return dateStr.split(' ')[0];
+const formatDateOnly = date => {
+  if (!date) return '';
+  if (typeof date === 'string') {
+    return date.split(' ')[0];
+  }
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${[year, month, day].map(formatNumber).join('-')}`;
 }
 
-const formatTimeOnly = dateStr => {
-  if (!dateStr) return '';
-  const parts = dateStr.split(' ');
-  return parts.length > 1 ? parts[1] : '';
+const formatTimeOnly = date => {
+  if (typeof date === 'string') {
+    const parts = date.split(' ');
+    if (parts.length > 1) {
+      const timeParts = parts[1].split(':');
+      return `${timeParts[0]}:${timeParts[1]}`;
+    }
+    return '';
+  }
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  return `${formatNumber(hour)}:${formatNumber(minute)}`;
 }
 
 // 判断任务是否逾期

@@ -1,0 +1,31 @@
+<view class="container" data-theme="{{theme}}">
+  <view class="template-list" wx:if="{{templates.length > 0}}">
+    <view class="template-card card" wx:for="{{templates}}" wx:key="id">
+      <view class="template-header">
+        <view class="template-title">{{item.name}}</view>
+        <view class="template-actions">
+          <view class="action-btn use-btn" bindtap="useTemplate" data-id="{{item.id}}">使用</view>
+          <view class="action-btn more-btn" bindtap="showActionSheet" data-id="{{item.id}}">···</view>
+        </view>
+      </view>
+      <view class="template-info">
+        <view class="info-tag priority-tag">{{item.priority}}</view>
+        <view class="info-tag type-tag">{{item.type}}</view>
+        <view class="info-tag duration-tag" wx:if="{{item.defaultDuration}}">{{item.defaultDuration}}小时</view>
+      </view>
+      <view class="template-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <view class="empty-icon">
+      <icon type="info" size="64" color="#d0d0d0" />
+    </view>
+    <view class="empty-text">暂无任务模板</view>
+    <view class="empty-hint">点击右下角按钮创建新模板</view>
+  </view>
+
+  <view class="fab" bindtap="goToCreate">
+    <view class="fab-icon">+</view>
+  </view>
+</view>

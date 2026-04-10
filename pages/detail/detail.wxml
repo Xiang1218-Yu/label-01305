@@ -1,5 +1,10 @@
 <view class="container" data-theme="{{theme}}">
   <view class="card form-card">
+    <view class="template-entry" wx:if="{{!isEdit}}" bindtap="goToTemplates">
+      <view class="template-entry-text">使用任务模板快速创建</view>
+      <view class="template-entry-arrow">></view>
+    </view>
+
     <view class="form-group">
       <view class="label">任务标题</view>
       <input class="input" placeholder="请输入任务标题" model:value="{{title}}" />
