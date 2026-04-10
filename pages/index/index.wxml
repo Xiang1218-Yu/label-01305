@@ -50,7 +50,14 @@
   </scroll-view>
 
   <!-- FAB -->
-  <view class="fab" bindtap="goToAdd">
-    <view class="fab-icon">+</view>
+  <view class="fab-container">
+    <view class="fab fab-template" bindtap="goToSelectTemplate">
+      <view class="fab-icon fab-small">模</view>
+      <text class="fab-label">模板创建</text>
+    </view>
+    <view class="fab fab-add" bindtap="goToAdd">
+      <view class="fab-icon">+</view>
+      <text class="fab-label">新建任务</text>
+    </view>
   </view>
 </view>

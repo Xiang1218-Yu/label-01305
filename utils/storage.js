@@ -4,6 +4,7 @@ const crypto = require('./crypto');
 
 const USERS_KEY = 'users';
 const TASKS_KEY = 'tasks';
+const TASK_TEMPLATES_KEY = 'taskTemplates';
 
 // --- User Service ---
 
@@ -120,6 +121,44 @@ const deleteTask = (taskId) => {
   wx.setStorageSync(TASKS_KEY, newTasks);
 };
 
+// --- Task Template Service ---
+
+const getTaskTemplates = (userId) => {
+  const templates = wx.getStorageSync(TASK_TEMPLATES_KEY) || [];
+  return templates.filter(t => t.userId === userId).sort((a, b) => b.createdAt - a.createdAt);
+};
+
+const addTaskTemplate = (template) => {
+  const templates = wx.getStorageSync(TASK_TEMPLATES_KEY) || [];
+  const newTemplate = {
+    ...template,
+    id: Date.now().toString(),
+    createdAt: Date.now()
+  };
+  templates.push(newTemplate);
+  wx.setStorageSync(TASK_TEMPLATES_KEY, templates);
+  return newTemplate;
+};
+
+const updateTaskTemplate = (templateId, updates) => {
+  let templates = wx.getStorageSync(TASK_TEMPLATES_KEY) || [];
+  const idStr = String(templateId);
+  const index = templates.findIndex(t => String(t.id) === idStr);
+  if (index > -1) {
+    templates[index] = { ...templates[index], ...updates };
+    wx.setStorageSync(TASK_TEMPLATES_KEY, templates);
+    return true;
+  }
+  return false;
+};
+
+const deleteTaskTemplate = (templateId) => {
+  let templates = wx.getStorageSync(TASK_TEMPLATES_KEY) || [];
+  const idStr = String(templateId);
+  const newTemplates = templates.filter(t => String(t.id) !== idStr);
+  wx.setStorageSync(TASK_TEMPLATES_KEY, newTemplates);
+};
+
 module.exports = {
   register,
   login,
@@ -129,5 +168,9 @@ module.exports = {
   getTaskById,
   addTask,
   updateTask,
-  deleteTask
+  deleteTask,
+  getTaskTemplates,
+  addTaskTemplate,
+  updateTaskTemplate,
+  deleteTaskTemplate
 };
