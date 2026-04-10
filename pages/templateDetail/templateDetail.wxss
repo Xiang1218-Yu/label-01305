@@ -1,0 +1,73 @@
+.form-card {
+  padding: 24px;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.half {
+  width: 48%;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--text-sub);
+  margin-bottom: 12px;
+  display: block;
+  font-weight: 500;
+}
+
+.input, .textarea, .picker-display {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 16px;
+  background: var(--bg-color);
+  box-sizing: border-box;
+  min-height: 48px;
+  transition: border-color 0.2s;
+}
+
+.input:focus, .textarea:focus {
+  border-color: #0052d9;
+}
+
+.picker-display {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  color: var(--text-main);
+}
+
+.textarea {
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+switch {
+  transform: scale(0.8);
+  transform-origin: left center;
+}
+
+.actions {
+  margin-top: 40px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.actions button {
+  flex: 1;
+  max-width: 200px;
+}
+
+.actions button:only-child {
+  max-width: 100%;
+}

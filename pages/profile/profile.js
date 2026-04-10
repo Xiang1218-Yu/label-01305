@@ -173,5 +173,11 @@ Page({
     wx.reLaunch({
       url: '/pages/login/login'
     });
+  },
+
+  goToTemplateList() {
+    wx.navigateTo({
+      url: '/pages/templateList/templateList'
+    });
   }
 });

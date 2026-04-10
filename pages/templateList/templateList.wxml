@@ -1,0 +1,37 @@
+<view class="container">
+  <view class="header">
+    <text class="title">常用任务模板</text>
+    <button class="add-btn" bindtap="showCreateModal">+ 新建模板</button>
+  </view>
+
+  <view wx:if="{{templates.length === 0}}" class="empty-state">
+    <image src="/assets/tabbar/tasks.png" class="empty-icon"></image>
+    <text>暂无常用任务模板</text>
+    <text class="empty-desc">点击右上角按钮，创建你的第一个任务模板</text>
+  </view>
+
+  <view wx:else class="template-list">
+    <view class="template-item" wx:for="{{templates}}" wx:key="id">
+      <view class="template-content" bindtap="createTaskFromTemplate" data-id="{{item.id}}">
+        <view class="template-title">{{item.title}}</view>
+        <view class="template-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+        <view class="template-meta">
+          <text wx:if="{{item.priority}}">优先级: {{item.priority === 'high' ? '高' : item.priority === 'medium' ? '中' : '低'}}</text>
+          <text wx:if="{{item.reminder}}">提醒: 开</text>
+        </view>
+      </view>
+      <view class="template-actions" bindtap="showActionSheet" data-id="{{item.id}}">
+        <image src="/assets/closes-eyes.png" class="action-icon"></image>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{showCreateModal}}" class="modal-overlay" bindtap="hideCreateModal">
+    <view class="modal-content" catchtap="">
+      <view class="modal-title">创建模板方式</view>
+      <view class="modal-option" bindtap="goToAdd">
+        <text class="option-text">创建空白模板</text>
+      </view>
+    </view>
+  </view>
+</view>
